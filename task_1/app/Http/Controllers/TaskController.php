@@ -33,16 +33,17 @@ class TaskController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|max:255',
-            'description' => 'max:16000',
             'due_date' => 'required|date'
         ]);
 
         $user = Auth::user();
         $task = new Task;
 
+        $description = $request->old('description') ?? 'N/A';
+
         $task->title = $validatedData['title'];
         $task->user_id = $user->id;
-        $task->description = $validatedData['description'] || null;
+        $task->description = $description;
         $task->due_date = $validatedData['due_date'];
 
         $task->save();
