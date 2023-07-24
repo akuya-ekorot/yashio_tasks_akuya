@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -13,7 +14,15 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+
+        $tasks = Task::where('user_id', $user->id)
+            ->orderBy('due_date', 'desc')
+            ->get();
+
+        return view('tasks', [
+            'tasks' => $tasks
+        ]);
     }
 
     /**
@@ -21,7 +30,19 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'max:16000',
+        ]);
+
+        $user = Auth::user();
+        $task = new Task;
+
+        $task->title = $validatedData['title'];
+        $task->user_id = $validatedData['user_id'];
+        $task->description = $validatedData['description'];
+
+        return redirect('/tasks');
     }
 
     /**
