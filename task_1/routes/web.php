@@ -32,7 +32,8 @@ Route::middleware('auth')->group(function () {
     */
 
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
-    Route::post('/tasks', [TaskController::class, 'create'])->name('tasks.create');
+    Route::get('/tasks/create', fn() => view('create'))->name('create');
+    Route::post('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
 });
 
 Route::middleware('auth')->group(function () {

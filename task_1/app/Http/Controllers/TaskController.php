@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -28,19 +29,23 @@ class TaskController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'description' => 'max:16000',
+            'due_date' => 'required|date'
         ]);
 
         $user = Auth::user();
         $task = new Task;
 
         $task->title = $validatedData['title'];
-        $task->user_id = $validatedData['user_id'];
-        $task->description = $validatedData['description'];
+        $task->user_id = $user->id;
+        $task->description = $validatedData['description'] || null;
+        $task->due_date = $validatedData['due_date'];
+
+        $task->save();
 
         return redirect('/tasks');
     }
