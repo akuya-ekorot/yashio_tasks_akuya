@@ -22,7 +22,7 @@
 
                     <ul class="text-sm flex flex-col gap-2">
                         @foreach ($tasks as $task)
-                            <li>- {{ $task->title }} </li>
+                            <x-list-item :task="$task"></x-list-item>
                         @endforeach
                     </ul>
 
