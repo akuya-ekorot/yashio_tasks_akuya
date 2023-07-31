@@ -1,5 +1,6 @@
 <template>
-    <div class="container">
+    <div class="flex items-center justify-center h-screen">
+        <h1>Hello World</h1>
     </div>
 </template>
 
