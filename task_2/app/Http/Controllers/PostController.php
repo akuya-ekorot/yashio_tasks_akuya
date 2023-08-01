@@ -12,7 +12,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Post::orderBy('created_at', 'desc')->get();
+        return Post::with('category')->orderBy('created_at', 'desc')->get();
     }
 
     /**
