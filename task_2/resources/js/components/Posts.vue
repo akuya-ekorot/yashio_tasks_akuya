@@ -46,7 +46,6 @@
         methods: {
             async fetchPosts() {
                 const postsResponse = await axios.get('/api/posts');
-                console.log(postsResponse.data);
                 this.posts = postsResponse.data;
             },
         },
