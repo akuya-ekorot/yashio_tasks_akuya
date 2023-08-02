@@ -80,7 +80,7 @@
     });
 
     const fetchData = async () => {
-        const categoriesResponse = await axios.get(`/api/post/${id}`);
+        const categoriesResponse = await axios.get(`/api/categories`);
         formStore.categories = categoriesResponse.data;
     }
 
@@ -91,7 +91,7 @@
          ...post,
          category_id: formStore
              .categories
-             .filter((category) => (category.name === formStore.category))[0]
+             .filter((category) => (category.name === post.category))[0]
              .id
        }
     }
