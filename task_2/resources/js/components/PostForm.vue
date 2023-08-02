@@ -54,7 +54,6 @@
 
         try {
           await axios.post('/api/posts', cleanedForm);
-          router.push('/');
         } catch (error) {
             console.error(error);
         }
