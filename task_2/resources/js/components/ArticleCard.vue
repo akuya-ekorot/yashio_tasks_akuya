@@ -1,8 +1,8 @@
 <template>
-    <article v-for="post in postsStore.posts" :key="post.id" class="flex max-w-xl flex-col items-start hover:shadow-md p-4 rounded">
+    <article v-for="post in posts" :key="post.id" class="flex max-w-xl flex-col items-start hover:shadow-md p-4 rounded">
         <div class="flex flex-col items-center gap-y-4 text-xs">
             <time :datetime="post.created_at" class="text-gray-500">{{ new Date(post.created_at).toLocaleDateString("en-US") }}</time>
-            <a :href="`/categories/${post.category.id}`" class="relative z-10 rounded-full bg-gray-100 px-2 py-1 font-medium text-gray-600 hover:bg-gray-300">{{ post.category.name }}</a>
+            <a v-if="page === 'home'" :href="`/categories/${post.category.id}`" class="relative z-10 rounded-full bg-gray-100 px-2 py-1 font-medium text-gray-600 hover:bg-gray-300">{{ post.category.name }}</a>
         </div>
         <div class="group relative">
             <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
@@ -16,7 +16,5 @@
 </template>
 
 <script setup>
-    import { inject } from 'vue';
-
-    const postsStore = inject('postsStore');
+    defineProps(['posts', 'page']);
 </script>
