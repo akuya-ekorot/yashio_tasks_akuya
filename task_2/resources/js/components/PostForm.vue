@@ -3,23 +3,12 @@
     <div class="space-y-12 w-full max-w-3xl">
       <div class="border-b border-gray-900/10 pb-12">
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div class="sm:col-span-4">
-            <label for="title" class="block text-sm font-medium leading-6 text-gray-900">Title</label>
-            <div class="mt-2">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                <input v-model="formStore.post.title" required type="text" name="title" id="title" class="pl-6 block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Blog title" />
-              </div>
-            </div>
-          </div>
 
-          <div class="sm:col-span-4">
-            <label for="slug" class="block text-sm font-medium leading-6 text-gray-900">Slug</label>
-            <div class="mt-2">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                <input v-model="formStore.post.slug" required type="text" name="slug" id="slug" class="pl-6 block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="blog-title" />
-              </div>
-            </div>
-          </div>
+          <!-- Title Input -->
+          <TextInput name="title" placeholder="Blog Title" label="Title" />
+
+          <!-- Slug Input -->
+          <TextInput name="slug" placeholder="blog-slug" label="Slug" />
 
           <div class="sm:col-span-4">
               <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Category</label>
@@ -60,8 +49,11 @@
 
 <script setup>
     import axios from 'axios';
-    import { reactive } from 'vue';
+    import { provide, reactive } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
+
+    // components
+    import TextInput from './TextInput.vue';
 
     const route = useRoute();
     const id = route.params.id;
@@ -78,6 +70,8 @@
         },
         categories: []
     });
+
+    provide('formStore', formStore);
 
     const fetchData = async () => {
         const categoriesResponse = await axios.get(`/api/categories`);
