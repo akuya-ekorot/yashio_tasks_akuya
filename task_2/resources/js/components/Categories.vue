@@ -2,10 +2,10 @@
     <div class="bg-white py-24 sm:py-32">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto lg:mx-0 flex flex-row justify-between">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{ category.name }}</h2>
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{ categoryStore.category.name }}</h2>
             </div>
             <div class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                <article v-for="post in category.posts" :key="post.id" class="flex max-w-xl flex-col items-start hover:shadow-md p-4 rounded">
+                <article v-for="post in categoryStore.category.posts" :key="post.id" class="flex max-w-xl flex-col items-start hover:shadow-md p-4 rounded">
                     <div class="flex flex-col items-center gap-y-4 text-xs">
                         <time :datetime="post.created_at" class="text-gray-500">{{ new Date(post.created_at).toLocaleDateString("en-US") }}</time>
                     </div>
@@ -23,25 +23,22 @@
     </div>
 </template>
 
-<script>
+<script setup>
     import axios from 'axios';
+    import { useRoute } from 'vue-router';
+    import { reactive } from 'vue';
 
-    export default {
-        name: "Cateogories",
-        data() {
-            return {
-                category: {}
-            }
-        },
-        methods: {
-            async fetchPosts() {
-                const categoryResponse = await axios.get(`/api/categories/${this.$route.params.id}`);
-                console.log(categoryResponse.data);
-                this.category = categoryResponse.data[0];
-            },
-        },
-        mounted() {
-            this.fetchPosts();
-        },
-    }
+    const route = useRoute();
+    const id = route.params.id;
+
+    const categoryStore = reactive({
+        category: {},
+    });
+
+    const fetchPosts = async () => {
+        const categoryResponse = await axios.get(`/api/categories/${id}`);
+        categoryStore.category = categoryResponse.data[0];
+    };
+
+    fetchPosts();
 </script>
