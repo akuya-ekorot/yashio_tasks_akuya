@@ -21,21 +21,12 @@
               </select>
           </div>
 
-          <div class="col-span-full">
-              <label for="excerpt" class="block text-sm font-medium leading-6 text-gray-900">Excerpt</label>
-              <div class="mt-2">
-                  <textarea v-model="formStore.post.excerpt" required id="excerpt" name="excerpt" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-              </div>
-              <p class="mt-3 text-sm leading-6 text-gray-600">Write an excerpt that captures the essence of your post.</p>
-          </div>
+          <!-- Excerpt Input -->
+          <TextAreaInput name="excerpt" placeholer="Write your excerpt here" label="Excerpt" rows="3" />
 
-          <div class="col-span-full">
-            <label for="body" class="block text-sm font-medium leading-6 text-gray-900">Body</label>
-            <div class="mt-2">
-              <textarea v-model="formStore.post.body" required id="body" name="body" rows="8" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-            </div>
-            <p class="mt-3 text-sm leading-6 text-gray-600">Write your blog.</p>
-          </div>
+          <!-- Body Input -->
+          <TextAreaInput name="body" placeholer="Write your body here" label="Body" rows="8" />
+
         </div>
       </div>
     </div>
@@ -54,6 +45,7 @@
 
     // components
     import TextInput from './TextInput.vue';
+    import TextAreaInput from './TextAreaInput.vue';
 
     const route = useRoute();
     const id = route.params.id;
