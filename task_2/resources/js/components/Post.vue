@@ -5,33 +5,32 @@
                 <router-link class="mb-4" :to="`/`">
                      Back
                 </router-link>
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{ post.title }}</h2>
-                <time :datetime="post.created_at" class="text-gray-500">{{ new Date(post.created_at).toLocaleDateString("en-US") }}</time>
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{ postStore.post.title }}</h2>
+                <time :datetime="postStore.post.created_at" class="text-gray-500">{{ new Date(postStore.post.created_at).toLocaleDateString("en-US") }}</time>
             </div>
         </div>
         <div class="max-w-4xl w-full px-6 lg:px-8 pb-12">
-            <p>{{post.body}}</p>
+            <p>{{postStore.post.body}}</p>
         </div>
     </div>
 </template>
 
-<script>
-    export default {
-        name: 'Post',
-        data() {
-            return {
-                post: {},
-            }
-        },
-        methods: {
-            async fetchPost() {
-                const postResponse = await axios.get(`/api/posts/${this.$route.params.id}`);
-                console.log(postResponse);
-                this.post = postResponse.data;
-            }
-        },
-        mounted() {
-            this.fetchPost();
-        }
-    }
+<script setup>
+    import axios from 'axios';
+    import { reactive } from 'vue';
+    import { useRoute } from 'vue-router';
+
+    const route = useRoute();
+    const id = route.params.id;
+
+    const postStore = reactive({
+        post: {}
+    });
+
+    const fetchPost = async () => {
+      const postResponse = await axios.get(`/api/posts/${id}`);
+      postStore.post = postResponse.data;
+    };
+
+    fetchPost();
 </script>
